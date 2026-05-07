@@ -1,0 +1,19 @@
+pip install python-dotenv cryptography hvac boto3 azure-keyvault-secrets
+
+#.env
+cat > .env << 'EOF'
+HQNN_MASTER_PASSWORD=change_this_to_strong_random_password
+HQNN_SECRET_BACKEND=local
+EOF
+chmod 600 .env
+
+#.env لـ .gitignore
+echo ".env" >> .gitignore
+echo ".hqnn_keys/" >> .gitignore
+
+
+export HQNN_MASTER_PASSWORD="your_password"
+python scripts/admin_keygen.py generate \
+    --owner "Your Organization" \
+    --tier research \
+    --expires_days 365

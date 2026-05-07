@@ -1,0 +1,13 @@
+export HQNN_MASTER_PASSWORD="your_secure_password_here"
+
+python scripts/admin_keygen.py generate \
+    --owner "Research Lab A" \
+    --tier research \
+    --expires_days 365
+
+python scripts/admin_keygen.py validate --key "hqnn_research_..."
+
+python scripts/admin_keygen.py license \
+    --org "University XYZ" \
+    --tier research \
+    --days 365

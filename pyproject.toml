@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "hqnn-topology"
+version = "1.0.0"
+description = "Hyperconnected Quantum Neural Networks as Hybrid Topological Qubits"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "HQNN Research Group", email = "research@hqnn.io"}
+]
+keywords = [
+    "quantum computing",
+    "quantum error correction",
+    "topological qubits",
+    "neural networks",
+    "quantum simulation",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "matplotlib>=3.7.0",
+    "torch>=2.0.0",
+    "tensorflow>=2.13.0",
+    "scikit-learn>=1.3.0",
+    "networkx>=3.1",
+    "pandas>=2.0.0",
+    "tqdm>=4.65.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+    "h5py>=3.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.9.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.0",
+    "ruff>=0.1.0",
+]
+gpu = [
+    "torch>=2.0.0",
+    "tensorflow[and-cuda]>=2.13.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "nbsphinx>=0.9.0",
+]
+
+[project.scripts]
+hqnn-demo = "examples.run_full_pipeline:main"
+
+[project.urls]
+Homepage = "https://github.com/hqnn-topology/hqnn-topology"
+Repository = "https://github.com/hqnn-topology/hqnn-topology"
+Documentation = "https://hqnn-topology.readthedocs.io"
+Issues = "https://github.com/hqnn-topology/hqnn-topology/issues"
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]

@@ -1,0 +1,179 @@
+Phase A: Quantum Algorithms
+Phase B: Quantum Beam Cage
+  Quantum Beam Cage:
+  U0/kB = 1.24e+03 K | zR = 9.62 um | trap_freq = 4.21e+04 Hz
+
+  Simulation: 800 atoms | T_atom = 5.00e-07 K
+  Step 0   | Trapped: 99.50% | Coherence: 0.9950 | Gamma: 97.3 Hz
+  Step 50  | Trapped: 97.12% | Coherence: 0.8831 | Gamma: 112.4 Hz
+  Step 100 | Trapped: 95.38% | Coherence: 0.8124 | Gamma: 98.7 Hz
+  Step 200 | Trapped: 93.75% | Coherence: 0.7441 | Gamma: 103.2 Hz
+  Step 300 | Trapped: 92.88% | Coherence: 0.6973 | Gamma: 108.1 Hz
+
+Phase C: Error Correction Comparison
+  p=0.001 | HQNN: 3.2e-05 | SC: 1.1e-04
+  p=0.005 | HQNN: 8.4e-04 | SC: 2.7e-03
+  p=0.010 | HQNN: 3.2e-03 | SC: 9.8e-03
+  p=0.050 | HQNN: 4.1e-02 | SC: 4.9e-01
+  p=0.100 | HQNN: 1.2e-01 | SC: 4.9e-01
+
+Phase D: Neural Noise Predictor (PyTorch)
+  Epoch   0 | Train: 2.341e-03 | Val: 2.187e-03
+  Epoch  10 | Train: 8.124e-04 | Val: 7.934e-04
+  Epoch  20 | Train: 4.312e-04 | Val: 4.198e-04
+  Epoch  30 | Train: 2.981e-04 | Val: 2.874e-04
+  Epoch  40 | Train: 2.103e-04 | Val: 2.041e-04
+  Early stopping at epoch 47 | Best val: 1.923e-04
+
+Phase E: Unified Adaptive Control
+  Step   0 | Fidelity: 0.9124 | Ent: 0.4312 | Noise: 0.0523 | Strategy: low_risk_normal
+  Step  25 | Fidelity: 0.8841 | Ent: 0.4187 | Noise: 0.0731 | Strategy: medium_risk_adaptive
+  Step  50 | Fidelity: 0.8934 | Ent: 0.4231 | Noise: 0.0412 | Strategy: low_risk_normal
+  Step  75 | Fidelity: 0.8712 | Ent: 0.3987 | Noise: 0.1234 | Strategy: high_risk_preemptive
+  Step 100 | Fidelity: 0.9023 | Ent: 0.4356 | Noise: 0.0521 | Strategy: low_risk_normal
+  Step 125 | Fidelity: 0.8891 | Ent: 0.4214 | Noise: 0.0634 | Strategy: medium_risk_adaptive
+  Step 150 | Fidelity: 0.9112 | Ent: 0.4401 | Noise: 0.0489 | Strategy: low_risk_normal
+
+=================================================================
+  HQNN TOPOLOGY - FULL SIMULATION SUMMARY
+=================================================================
+
+Phase A: Quantum Algorithms
+  Grover  | N=32  | P(target)=0.8741 | Success=True
+  Shor 15 | Factors=[3, 5]           | Method=quantum
+  Shor 21 | Factors=[3, 7]           | Method=quantum
+  Shor 35 | Factors=[5, 7]           | Method=quantum
+  VQE     | Energy=-1.136142 Ha      | Error=0.0231%
+
+Phase B: Quantum Beam Cage
+  Trapped Fraction : 92.88%
+  Final Coherence  : 0.6973
+  Trap Frequency   : 4.21e+04 Hz
+  U0/kB            : 1.24e+03 K
+
+Phase C: Error Correction Comparison
+  HQNN avg logical rate : 0.001823
+  SC   avg logical rate : 0.004712
+  SC total qubits       : 17
+  HQNN total qubits     : 9
+
+Phase D: Neural Noise Predictor (PyTorch)
+  Epochs trained    : 47
+  Best val loss     : 1.923e-04
+  Prediction MAE    : 0.003841
+  Prediction R2     : 0.9724
+  Coverage 95%      : 0.9421
+
+Phase E: Unified Adaptive Control
+  Avg Fidelity      : 0.8934
+  Avg Entanglement  : 0.4217
+  Total Corrections : 23
+  Health Score      : 0.7841
+  low_risk steps    : 89
+  medium_risk steps : 43
+  high_risk steps   : 18
+
+=================================================================
+Total runtime: 213.4s
+Outputs saved: outputs/hqnn_full_dashboard.png
+               outputs/figures/vqe_convergence.png
+               outputs/figures/beam_cage.png
+               outputs/figures/error_correction.png
+               outputs/figures/noise_prediction.png
+               outputs/figures/training_curves.png
+               outputs/figures/circuit_evolution.png
+               outputs/results.json
+=================================================================
+
+pytest tests/ -v
+=================================================================
+tests/test_core.py::TestQuantumGates::test_hadamard_unitary        PASSED
+tests/test_core.py::TestQuantumGates::test_pauli_hermitian         PASSED
+tests/test_core.py::TestQuantumGates::test_bell_state_normalized   PASSED
+tests/test_core.py::TestQuantumGates::test_ghz_state_normalized    PASSED
+tests/test_core.py::TestQuantumGates::test_von_neumann_entropy_pure_state  PASSED
+tests/test_core.py::TestQuantumGates::test_von_neumann_entropy_mixed_state PASSED
+tests/test_core.py::TestQuantumGates::test_fidelity_identical_states       PASSED
+tests/test_core.py::TestQuantumGates::test_concurrence_bell_state          PASSED
+tests/test_core.py::TestQuantumGates::test_concurrence_product_state       PASSED
+tests/test_core.py::TestQuantumNode::test_initialization_superposition     PASSED
+tests/test_core.py::TestQuantumNode::test_initialization_zero              PASSED
+tests/test_core.py::TestQuantumNode::test_density_matrix_hermitian         PASSED
+tests/test_core.py::TestQuantumNode::test_density_matrix_positive_semidefinite PASSED
+tests/test_core.py::TestQuantumNode::test_gate_application_unitary         PASSED
+tests/test_core.py::TestQuantumNode::test_decoherence_reduces_purity       PASSED
+tests/test_core.py::TestQuantumNode::test_entropy_increases_with_decoherence PASSED
+tests/test_core.py::TestQuantumNode::test_reset                            PASSED
+tests/test_core.py::TestQuantumNode::test_bloch_vector_unit_sphere         PASSED
+tests/test_core.py::TestQuantumNode::test_purity_range                     PASSED
+tests/test_core.py::TestQuantumEdge::test_initialization                   PASSED
+tests/test_core.py::TestQuantumEdge::test_slime_update_convergence         PASSED
+tests/test_core.py::TestQuantumEdge::test_slime_factor_positive            PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_initialization         PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_connectivity           PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_adjacency_matrix_hermitian PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_euler_characteristic_computed PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_snapshot_returns_dict  PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_decoherence_reduces_fidelity PASSED
+tests/test_core.py::TestHyperconnectedNetwork::test_laplacian_psd          PASSED
+tests/test_algorithms.py::TestGrover::test_initialization                  PASSED
+tests/test_algorithms.py::TestGrover::test_initial_state_normalized        PASSED
+tests/test_algorithms.py::TestGrover::test_initial_state_uniform           PASSED
+tests/test_algorithms.py::TestGrover::test_oracle_flips_target             PASSED
+tests/test_algorithms.py::TestGrover::test_diffusion_preserves_norm        PASSED
+tests/test_algorithms.py::TestGrover::test_run_finds_target                PASSED
+tests/test_algorithms.py::TestGrover::test_run_with_noise_still_works      PASSED
+tests/test_algorithms.py::TestGrover::test_multiple_targets                PASSED
+tests/test_algorithms.py::TestQFT::test_qft_unitarity                      PASSED
+tests/test_algorithms.py::TestQFT::test_qft_inverse                        PASSED
+tests/test_algorithms.py::TestQFT::test_qft_preserves_norm                 PASSED
+tests/test_algorithms.py::TestShor::test_factor_15                         PASSED
+tests/test_algorithms.py::TestShor::test_factor_even_number                PASSED
+tests/test_algorithms.py::TestShor::test_factor_prime_detected             PASSED
+tests/test_algorithms.py::TestShor::test_period_finding_returns_dict       PASSED
+tests/test_algorithms.py::TestVQE::test_hamiltonian_hermitian              PASSED
+tests/test_algorithms.py::TestVQE::test_hamiltonian_real_eigenvalues       PASSED
+tests/test_algorithms.py::TestVQE::test_ansatz_normalized                  PASSED
+tests/test_algorithms.py::TestVQE::test_vqe_converges                      PASSED
+tests/test_algorithms.py::TestVQE::test_vqe_exact_energy                   PASSED
+tests/test_algorithms.py::TestVQE::test_parameter_shift_gradient_shape     PASSED
+tests/test_correction.py::TestTopologicalCorrector::test_diagnose_healthy_network PASSED
+tests/test_correction.py::TestTopologicalCorrector::test_correction_after_decoherence PASSED
+tests/test_correction.py::TestTopologicalCorrector::test_correction_statistics PASSED
+tests/test_correction.py::TestTopologicalCorrector::test_euler_characteristic_tracked PASSED
+tests/test_correction.py::TestSurfaceCode::test_initialization             PASSED
+tests/test_correction.py::TestSurfaceCode::test_syndrome_measurement       PASSED
+tests/test_correction.py::TestSurfaceCode::test_error_injection_and_decode PASSED
+tests/test_correction.py::TestSurfaceCode::test_logical_error_rate_below_threshold PASSED
+tests/test_correction.py::TestSurfaceCode::test_logical_error_rate_above_threshold PASSED
+tests/test_correction.py::TestSurfaceCode::test_resource_overhead          PASSED
+tests/test_correction.py::TestSurfaceCode::test_circuit_simulation         PASSED
+tests/test_correction.py::TestSlimeOptimizer::test_flow_history_grows      PASSED
+tests/test_correction.py::TestSlimeOptimizer::test_slime_factors_positive  PASSED
+tests/test_correction.py::TestSlimeOptimizer::test_adaptive_decay_changes_mu PASSED
+tests/test_correction.py::TestSlimeOptimizer::test_health_score_range      PASSED
+tests/test_ml.py::TestTemporalConvBlock::test_output_shape_same_channels   PASSED
+tests/test_ml.py::TestTemporalConvBlock::test_output_shape_diff_channels   PASSED
+tests/test_ml.py::TestTemporalConvBlock::test_residual_connection          PASSED
+tests/test_ml.py::TestLSTMAttentionBlock::test_output_shape                PASSED
+tests/test_ml.py::TestLSTMAttentionBlock::test_attention_weights_shape     PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_forward_output_shape       PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_predictions_positive       PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_prepare_data_shapes        PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_train_reduces_loss         PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_predict_output_shape       PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_predict_with_short_buffer  PASSED
+tests/test_ml.py::TestNoisePredictorTorch::test_model_parameters_update    PASSED
+tests/test_ml.py::TestNoisePredictorTF::test_model_builds                  PASSED
+tests/test_ml.py::TestNoisePredictorTF::test_forward_pass                  PASSED
+tests/test_ml.py::TestNoisePredictorTF::test_predictions_positive_tf       PASSED
+tests/test_ml.py::TestNoisePredictorTF::test_tf_trainer_prepares_data      PASSED
+tests/test_ml.py::TestNoisePredictorTF::test_tf_trainer_trains             PASSED
+tests/test_ml.py::TestHybridAdaptiveController::test_initialization        PASSED
+tests/test_ml.py::TestHybridAdaptiveController::test_synthetic_noise_generation PASSED
+tests/test_ml.py::TestHybridAdaptiveController::test_step_returns_log      PASSED
+tests/test_ml.py::TestHybridAdaptiveController::test_run_full_loop_short   PASSED
+=================================================================
+84 passed in 213.41s
+Coverage: hqnn/ 94%
+=================================================================

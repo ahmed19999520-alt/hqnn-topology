@@ -1,0 +1,48 @@
+git clone https://github.com/hqnn-topology/hqnn-topology.git
+cd hqnn-topology
+
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install tensorflow-cpu
+pip install -e ".[dev]"
+
+pytest tests/ -v --cov=hqnn --cov-report=term-missing
+
+python examples/run_grover.py \
+    --n_qubits 5 \
+    --targets 17 23 \
+    --noise 0.02 \
+    --output outputs/grover.png
+
+python examples/run_shor.py \
+    --numbers 15 21 35 \
+    --noise 0.02 \
+    --output outputs/shor.png
+
+python examples/run_vqe.py \
+    --n_qubits 4 \
+    --n_layers 3 \
+    --molecule H2 \
+    --n_iterations 100 \
+    --n_runs 3 \
+    --output outputs/vqe.png
+
+python examples/benchmark_error_correction.py \
+    --n_nodes 9 \
+    --n_error_rates 20 \
+    --sc_distances 3 5 \
+    --output outputs/benchmark.png
+
+python examples/train_noise_predictor.py \
+    --backend both \
+    --noise_regime mixed \
+    --n_samples 3000 \
+    --n_epochs 100 \
+    --output outputs/predictor.png
+
+python examples/run_full_pipeline.py
+
+cd csharp/HQNN.Simulation
+dotnet run
+
+docker build -t hqnn-topology:latest .
+docker run --rm -v $(pwd)/outputs:/app/outputs hqnn-topology:latest

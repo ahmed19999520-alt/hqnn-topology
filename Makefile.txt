@@ -1,0 +1,45 @@
+.PHONY: install test lint format clean build docs run
+
+install:
+	pip install -e ".[dev]"
+
+install-gpu:
+	pip install -e ".[dev,gpu]"
+
+test:
+	pytest tests/ -v --cov=hqnn --cov-report=term-missing --cov-report=html
+
+test-fast:
+	pytest tests/ -v -x --tb=short -q
+
+lint:
+	ruff check hqnn/ tests/
+	mypy hqnn/ --ignore-missing-imports
+
+format:
+	black hqnn/ tests/ examples/
+	isort hqnn/ tests/ examples/
+
+clean:
+	find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	rm -rf build/ dist/ *.egg-info htmlcov/ .coverage coverage.xml
+	rm -rf outputs/
+
+build:
+	python -m build
+
+run:
+	python examples/run_full_pipeline.py
+
+run-csharp:
+	cd csharp/HQNN.Simulation && dotnet run
+
+docs:
+	cd docs && sphinx-build -b html . _build/html
+
+docker-build:
+	docker build -t hqnn-topology:latest .
+
+docker-run:
+	docker run --rm -v $(PWD)/outputs:/app/outputs hqnn-topology:latest

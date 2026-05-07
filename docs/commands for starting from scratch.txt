@@ -1,0 +1,78 @@
+git clone https://github.com/hqnn-topology/hqnn-topology.git
+cd hqnn-topology
+
+python -m venv .venv
+source .venv/bin/activate
+
+pip install --upgrade pip
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install tensorflow-cpu
+pip install -e ".[dev]"
+
+pre-commit install
+
+python scripts/generate_synthetic_data.py \
+    --n_samples 10000 \
+    --output_dir data \
+    --format hdf5
+
+python examples/train_noise_predictor.py \
+    --backend torch \
+    --noise_regime mixed \
+    --n_samples 3000 \
+    --n_epochs 100 \
+    --checkpoint_dir checkpoints \
+    --output outputs/predictor_torch.png
+
+python scripts/evaluate_model.py \
+    --checkpoint checkpoints/torch_predictor.pt \
+    --data data/quantum_noise_dataset.h5 \
+    --dataset_name mixed_regime \
+    --output outputs/eval_results.json
+
+python examples/run_grover.py \
+    --n_qubits 5 --targets 17 23 \
+    --noise 0.02 --output outputs/grover.png
+
+python examples/run_shor.py \
+    --numbers 15 21 35 77 \
+    --noise 0.02 --output outputs/shor.png
+
+python examples/run_vqe.py \
+    --n_qubits 4 --n_layers 3 \
+    --molecule H2 --n_runs 3 \
+    --output outputs/vqe.png
+
+python examples/benchmark_error_correction.py \
+    --n_nodes 9 \
+    --n_error_rates 20 \
+    --sc_distances 3 5 \
+    --n_trials_per_rate 100 \
+    --output outputs/benchmark.png \
+    --save_json outputs/benchmark_data.json
+
+python scripts/profile_simulation.py \
+    --n_nodes_list 4 6 9 12 16 \
+    --n_steps 50 \
+    --n_runs 3 \
+    --output outputs/profile_results.json
+
+python examples/run_full_pipeline.py
+
+pytest tests/ -v \
+    --cov=hqnn \
+    --cov-report=term-missing \
+    --cov-report=html:htmlcov \
+    --cov-report=xml:coverage.xml \
+    -x
+
+cd csharp/HQNN.Simulation
+dotnet restore
+dotnet build --configuration Release
+dotnet run --configuration Release
+
+docker build -t hqnn-topology:latest .
+docker run --rm \
+    -v $(pwd)/outputs:/app/outputs \
+    -v $(pwd)/data:/app/data \
+    hqnn-topology:latest

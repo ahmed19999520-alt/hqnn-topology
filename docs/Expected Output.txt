@@ -1,0 +1,44 @@
+Phase A: Quantum Algorithms
+Phase B: Quantum Beam Cage
+  Quantum Beam Cage:
+  U0/kB = 1.24e+03 K | zR = 9.62 um | w0 = 1.50 um
+Phase C: Error Correction Comparison
+Phase D: Neural Noise Predictor
+  Training: epoch 0 loss 0.002341 val 0.002198
+  Training: epoch 10 loss 0.000812 val 0.000794
+  ...
+Phase E: Unified Adaptive Control
+
+=================================================================
+  HQNN TOPOLOGY - FULL SIMULATION SUMMARY
+=================================================================
+
+Phase A: Quantum Algorithms
+  Grover  | N=32 | P(target)=0.8741 | Success=True
+  Shor 15 | Factors=[3, 5] | Method=quantum
+  VQE     | Energy=-1.136142 Ha | Error=0.0231%
+
+Phase B: Quantum Beam Cage
+  Trapped Fraction : 94.38%
+  Final Coherence  : 0.9127
+  Trap Frequency   : 4.21e+04 Hz
+
+Phase C: Error Correction Comparison
+  Our avg logical rate : 0.001823
+  SC  avg logical rate : 0.004712
+  SC total qubits      : 17
+
+Phase D: Neural Noise Predictor (PyTorch)
+  Epochs trained   : 47
+  Best val loss    : 0.000312
+  Prediction MAE   : 0.003841
+
+Phase E: Unified Adaptive Control
+  Avg Fidelity     : 0.8934
+  Avg Entanglement : 0.4217
+  Corrections      : 23
+  Health Score     : 0.7841
+=================================================================
+
+Total runtime: 184.3s
+Outputs saved to: /path/to/outputs
