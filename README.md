@@ -400,7 +400,7 @@ codes with 47% fewer physical qubits.
 ## Installation
 
 ```bash
-git clone https://github.com/hqnn-topology/hqnn-topology.git
+git clone (https://github.com/ahmed19999520-alt/hqnn-topology)](https://github.com/ahmed19999520-alt/hqnn-topology).git
 cd hqnn-topology
 pip install -e ".[dev]"
 ```
